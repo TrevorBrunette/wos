@@ -2,12 +2,13 @@
 set -e
 
 DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )
+BUILD="build"
+SOURCE_DIR="../"
+TOOLCHAIN_FILE="$SOURCE_DIR/toolchain.cmake"
 
 # If not already inside enter the container
 source "$DIR/scripts/run-in-container.sh"
 run_self_in_container "$@"
-
-BUILD="build"
 
 mkdir -p "$DIR/$BUILD"
 cd "$DIR/$BUILD"
@@ -18,7 +19,7 @@ fi
 
 # Configure CMake if we haven't already
 if [ ! -f build.ninja ]; then
-    cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=../toolchain.cmake ../
+    cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN_FILE" "$SOURCE_DIR"
 fi
 
 ninja
