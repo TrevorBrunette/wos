@@ -1,4 +1,4 @@
-#include "main.h"
+#include "main.hpp"
 
 volatile unsigned int* const UART0DR = (unsigned int*) 0x101f1000;
 

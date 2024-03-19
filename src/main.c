@@ -1,6 +1,6 @@
-volatile unsigned int* const UART0DR = (unsigned int*) 0x101f1000;
+#include "main.h"
 
-extern void Main();
+volatile unsigned int* const UART0DR = (unsigned int*) 0x101f1000;
 
 void print_uart0(const char* str) {
     while (*str != 0) {

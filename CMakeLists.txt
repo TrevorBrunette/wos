@@ -15,7 +15,10 @@ set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/linker.ld)
 list(APPEND SRC_ASM_FILES ${CMAKE_SOURCE_DIR}/booter.s)
 list(APPEND SRC_C_FILES ${CMAKE_SOURCE_DIR}/main.c)
 list(APPEND SRC_CXX_FILES ${CMAKE_SOURCE_DIR}/main.cpp)
-list(APPEND SRC_HEADER_FILES ${CMAKE_SOURCE_DIR}/main.h)
+list(APPEND SRC_HEADER_FILES
+        ${CMAKE_SOURCE_DIR}/main.h
+        ${CMAKE_SOURCE_DIR}/main.hpp
+)
 
 add_executable(
         ${CMAKE_PROJECT_NAME}
