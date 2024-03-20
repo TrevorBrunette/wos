@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
+set -e
 
-DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/.."
+DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )
 BUILD="build"
 SOURCE_DIR="../"
 TOOLCHAIN_FILE="$SOURCE_DIR/toolchain.cmake"
 
-if ! [ -d "$DIR/$BUILD" ] ; then
-  mkdir "$DIR/$BUILD"
+# If not already inside enter the container
+source "$DIR/scripts/run-in-container.sh"
+run_self_in_container "$@"
+
+mkdir -p "$DIR/$BUILD"
+cd "$DIR/$BUILD"
+
+if [ -n "$FORCE_REBUILD" ]; then
+    rm -r ./**
 fi
 
-(
-  cd "$DIR/$BUILD" || exit
-  rm -r ./**
-  cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN_FILE" "$SOURCE_DIR"
-  ninja
-)
+# Configure CMake if we haven't already
+if [ ! -f build.ninja ]; then
+    cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN_FILE" "$SOURCE_DIR"
+fi
+
+ninja
