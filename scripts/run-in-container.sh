@@ -44,6 +44,7 @@ build_container() {
 run_in_container() {
   if [ -z "$__container_cmd" ] || [ -n "$DISABLE_CONTAINER_BUILD" ]; then
     echo "Could not find docker or podman or containerized builds were disabled with DISABLE_CONTAINER_BUILD.  Executing outside the container."
+    export RUNNING_IN_CONTAINER=1  # Don't try to rerun in the container if run_self_in_container is called
     exec "$@" # no return
   fi
 
